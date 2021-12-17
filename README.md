@@ -40,5 +40,4 @@ Just fill an issue and describe it. We'll check it ASAP!
 Give a ⭐️ if this project helped you!
 
 ## Credits
-- Credits to [sepandhaghighi](https://github.com/sepandhaghighi) who is the creator of samila
 - Credits to [endoplasmatischesretikulum](https://github.com/endoplasmatischesretikulum) for being awesome 
