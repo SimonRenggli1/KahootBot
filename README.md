@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://user-images.githubusercontent.com/96227533/146386911-40a9be20-690a-40df-834b-66d56a187cd3.png" width=400 height=400>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Kahoot_Logo.svg/1200px-Kahoot_Logo.svg.png" width=400 height=400>
 <br/>
 <h1>KahootBot</h1>
 <br/>
