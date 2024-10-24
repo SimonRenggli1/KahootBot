@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 import random
 
@@ -11,26 +11,46 @@ botamount = int(input("How many Bots would you like to Generate? "))
 i = 0
 
 options = webdriver.ChromeOptions()
-#options.add_argument("headless")
-driver = webdriver.Chrome("C:\\Users\\Simon_Renggli1\\OneDrive - sluz\\Dokumente 1\\Webdrivers\\chromedriver.exe", chrome_options=options)
+options.add_argument("--headless")
 
-while i <= botamount:
-    name = str(random.choice(names))
-    driver.get("https://www.kahoot.it")
-    pin_textbox = driver.find_element_by_id("game-input")
-    pin_textbox.send_keys(pin)
-    enter_button = driver.find_element_by_xpath("//button[text()='Eingabe']")
-    enter_button.submit()
-    time.sleep(0.3)
-    name_textbox = driver.find_element_by_id("nickname")
-    name_textbox.send_keys(name)
-    names.remove(name)
-    los_button = driver.find_element_by_xpath("//button[text()='OK, los!']")
-    los_button.submit()
-    driver.execute_script("window.open()")
-    driver.switch_to.window(driver.window_handles[i+1])
-    i = i + 1
-    if i == botamount:
-        exit()
+# Initialize the Chrome driver using webdriver-manager
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+while i < botamount:
+    name = random.choice(names)
+    driver.get("https://kahoot.it")
     
-        # 6487385
+    # Locate the PIN input field
+    pin_textbox = driver.find_element(By.ID, "game-input")
+    
+    # Simulate realistic typing for the PIN
+    for char in pin:
+        pin_textbox.send_keys(char)
+        time.sleep(random.uniform(0.1, 0.3))  # Random delay between 0.1 to 0.3 seconds
+    
+    # Click the Enter button
+    enter_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Enter') or contains(text(), 'Eingabe')]")
+    enter_button.click()
+    time.sleep(1)  # Wait for the next page to load
+    
+    # Locate the nickname input field
+    name_textbox = driver.find_element(By.ID, "nickname")
+    
+    # Simulate realistic typing for the nickname
+    for char in name:
+        name_textbox.send_keys(char)
+        time.sleep(random.uniform(0.1, 0.3))  # Random delay between 0.1 to 0.3 seconds
+    
+    names.remove(name)
+    
+    # Click the OK, go! button
+    start_button = driver.find_element(By.XPATH, "//button[contains(text(), 'OK, go!') or contains(text(), 'OK, los!')]")
+    start_button.click()
+    
+    # Open a new tab for the next bot
+    driver.execute_script("window.open('');")
+    driver.switch_to.window(driver.window_handles[-1])
+    i += 1
+
+# Close the driver after all bots have been generated
+driver.quit()
